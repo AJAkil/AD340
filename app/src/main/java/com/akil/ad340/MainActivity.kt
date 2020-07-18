@@ -20,13 +20,11 @@ class MainActivity : AppCompatActivity() {
         // Adding a click listener to the button to display whatever was entered to the edit text
         enterButton.setOnClickListener{
             val zipcode: String = zipcodeEditText.text.toString()
-
             if (zipcode.length !=5 ){
                 Toast.makeText(this, R.string.zipcode_entry_error , Toast.LENGTH_SHORT).show()
             } else{
                 Toast.makeText(this, zipcode, Toast.LENGTH_SHORT).show()
             }
-
 
         }
     }
