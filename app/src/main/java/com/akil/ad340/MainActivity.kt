@@ -39,9 +39,16 @@ class MainActivity : AppCompatActivity() {
         // Instantiating the linear layout manager
         forecastList.layoutManager = LinearLayoutManager(this)
 
+        val dailyForeCastAdapter = DailyForecastAdapter()
+
+        // Setting the adapter
+        forecastList.adapter = dailyForeCastAdapter
+
+
+
         val weeklyForecastObserver = Observer<List<DailyForecast>>{ forecastItems ->
             // Update our List adapter
-            Toast.makeText(this, "Loaded Items", Toast.LENGTH_SHORT).show()
+            dailyForeCastAdapter.submitList(forecastItems)
         }
         /*we observe the weeklyForecast variable by the weeklyForecastObserver
         A lifecycle owner, the main activity is passed here. Observer is also passed here
