@@ -46,4 +46,14 @@
         app:layout_constraintEnd_toEndOf="@+id/zipcodeEditText"
         app:layout_constraintStart_toStartOf="@+id/zipcodeEditText"
         app:layout_constraintTop_toBottomOf="@+id/zipcodeEditText" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enterButton"
+        android:background="#D7F1F4"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
