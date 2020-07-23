@@ -20,7 +20,7 @@ class ForecastRepository {
             DailyForecast(temp,"Partly Chilly")
         }
 
-        // the private variable is updated with the list
+        // the private variable is updated with the list, and the public variable will also be updated
         _weeklyForecast.setValue(forecastItems)
     }
 }
