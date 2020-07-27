@@ -14,13 +14,27 @@ class ForecastRepository {
     // A method for loading data so that we can pass it to the activity
     fun loadForecast(zipcode: String){
         // Randomly Loading list of seven values
-        val randomValues = List(7) { Random.nextFloat().rem(100) * 100 }
+        val randomValues = List(10) { Random.nextFloat().rem(100) * 100 }
         // A list variable for making the data class objects
         val forecastItems = randomValues.map {temp ->
-            DailyForecast(temp,"Partly Chilly")
+            DailyForecast(temp,getTempDescription(temp))
         }
 
         // the private variable is updated with the list, and the public variable will also be updated
         _weeklyForecast.setValue(forecastItems)
+    }
+
+    private fun getTempDescription(temp: Float): String{
+        return when (temp){
+            in Float.MIN_VALUE.rangeTo(0f) -> "Anything bellow zero doesn't make sense!"
+            in 0f.rangeTo(32f) -> "Way too Cold!"
+            in 32f.rangeTo(55f) -> "Colder than I would prefer"
+            in 55f.rangeTo(65f) -> "Getting better"
+            in 65f.rangeTo(80f) -> "That's the sweet spot"
+            in 80f.rangeTo(90f) -> "Getting a little warm"
+            in 90f.rangeTo(100f) -> "Where's the A/C?"
+            in 100f.rangeTo(Float.MAX_VALUE) -> "What is this, Arizona"
+            else -> "Does not compute"
+        }
     }
 }
