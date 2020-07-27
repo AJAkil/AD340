@@ -48,12 +48,8 @@ class MainActivity : AppCompatActivity() {
         * expects a callback that takes in a DailyForecast Item, so we create a lambda and pass in
         * that type of parameter and show a message related to this
         * */
-        val dailyForeCastAdapter = DailyForecastAdapter() {
-
-            // Create a new intent to start the forecast details activity
-            val forecastDetailsIntent = Intent(this, ForecastDetailsActivity::class.java)
-            // Launching the activity
-            startActivity(forecastDetailsIntent)
+        val dailyForeCastAdapter = DailyForecastAdapter() { forecast ->
+            showForecastDetails(forecast)
         }
 
         // Setting the adapter
@@ -71,6 +67,17 @@ class MainActivity : AppCompatActivity() {
         which updates the ListAdapter and since we passed lifecycle observer, all of these changes
         will bound to the lifecycle of the activity*/
         forecastRepository.weeklyForecast.observe(this,weeklyForecastObserver)
+    }
+
+    private fun showForecastDetails(forecast: DailyForecast){
+        // Create a new intent to start the forecast details activity
+        val forecastDetailsIntent = Intent(this, ForecastDetailsActivity::class.java)
+
+        // Putting new Information to the intents before we start the activity
+        forecastDetailsIntent.putExtra("key_temp", forecast.temp)
+        forecastDetailsIntent.putExtra("key_description", forecast.description)
+        // Launching the activity
+        startActivity(forecastDetailsIntent)
     }
 
 }
