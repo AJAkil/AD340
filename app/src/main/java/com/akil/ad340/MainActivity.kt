@@ -1,6 +1,7 @@
 package com.akil.ad340
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -9,6 +10,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.akil.ad340.details.ForecastDetailsActivity
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -46,9 +48,12 @@ class MainActivity : AppCompatActivity() {
         * expects a callback that takes in a DailyForecast Item, so we create a lambda and pass in
         * that type of parameter and show a message related to this
         * */
-        val dailyForeCastAdapter = DailyForecastAdapter() { forecastItem ->
-            val message = getString(R.string.forecast_clicked_format, forecastItem.temp, forecastItem.description)
-            Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
+        val dailyForeCastAdapter = DailyForecastAdapter() {
+
+            // Create a new intent to start the forecast details activity
+            val forecastDetailsIntent = Intent(this, ForecastDetailsActivity::class.java)
+            // Launching the activity
+            startActivity(forecastDetailsIntent)
         }
 
         // Setting the adapter
