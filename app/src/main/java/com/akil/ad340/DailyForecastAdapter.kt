@@ -15,12 +15,14 @@ class DailyForecastViewHolder(view: View): RecyclerView.ViewHolder(view){
 
     // This method binds the data to the views so that we can show some data
     fun bind(dailyForecast: DailyForecast){
-        tempText.text = dailyForecast.temp.toString()
+        tempText.text = String.format("%.2f", dailyForecast.temp)
         descriptionText.text = dailyForecast.description
     }
 }
 
-class DailyForecastAdapter(): ListAdapter<DailyForecast,DailyForecastViewHolder>(DIFF_CONFIG){
+class DailyForecastAdapter(
+    private val clickHandler: (DailyForecast) -> Unit
+): ListAdapter<DailyForecast,DailyForecastViewHolder>(DIFF_CONFIG){
 
     // Like static of java, anonymous inner class type
     companion object{
@@ -54,6 +56,9 @@ class DailyForecastAdapter(): ListAdapter<DailyForecast,DailyForecastViewHolder>
     // This method basically binds data to the view holder
     override fun onBindViewHolder(holder: DailyForecastViewHolder, position: Int) {
         holder.bind(getItem(position))
+        holder.itemView.setOnClickListener {
+            clickHandler(getItem(position))
+        }
     }
 
 }

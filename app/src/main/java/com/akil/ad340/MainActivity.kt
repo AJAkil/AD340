@@ -1,5 +1,6 @@
 package com.akil.ad340
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -15,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     // a repository reference created
     private val forecastRepository = ForecastRepository()
 
+    @SuppressLint("StringFormatMatches")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -29,17 +31,25 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, R.string.zipcode_entry_error , Toast.LENGTH_SHORT).show()
             } else{
                 forecastRepository.loadForecast(zipcode)
-                //Toast.makeText(this, zipcode, Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, zip code, Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Creating a Recylcer View instance
+        // Creating a Recycler View instance
         val forecastList: RecyclerView = findViewById(R.id.forecastList)
 
         // Instantiating the linear layout manager
         forecastList.layoutManager = LinearLayoutManager(this)
 
-        val dailyForeCastAdapter = DailyForecastAdapter()
+        /*
+        * So, we are passing a call back here that would be used in the Adaptor's bind. And it
+        * expects a callback that takes in a DailyForecast Item, so we create a lambda and pass in
+        * that type of parameter and show a message related to this
+        * */
+        val dailyForeCastAdapter = DailyForecastAdapter() { forecastItem ->
+            val message = getString(R.string.forecast_clicked_format, forecastItem.temp, forecastItem.description)
+            Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
+        }
 
         // Setting the adapter
         forecastList.adapter = dailyForeCastAdapter
