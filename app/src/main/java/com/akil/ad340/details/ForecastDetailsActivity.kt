@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.TextView
+import android.widget.Toast
 import com.akil.ad340.R
 import com.akil.ad340.formatTempForDisplay
 
@@ -37,5 +39,17 @@ class ForecastDetailsActivity : AppCompatActivity() {
         inflater.inflate(R.menu.settings_menu, menu)
         // Returning true indicates that we handled everything and we want to show the menu
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle the item selection
+        return when(item.itemId){
+            R.id.TempDisplaySetting -> {
+             // Do something if the id of the item clicked is TempDisplaySetting
+                Toast.makeText(this, "Menu Item selected", Toast.LENGTH_SHORT).show()
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
