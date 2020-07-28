@@ -10,13 +10,25 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.akil.ad340.R
+import com.akil.ad340.TempDisplaySetting
+import com.akil.ad340.TempDisplaySettingManager
 import com.akil.ad340.formatTempForDisplay
 
 class ForecastDetailsActivity : AppCompatActivity() {
+
+    /* lateinit var means at some point will be assigned a value, but not right now.
+     The reason of the use of this in android is that a lot of the times we need a context
+     and a context is not created in android until the onCreate is called on android
+    */
+    private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forecast_details)
+
+        // Create a reference to the TempDisplaySettingManager
+        tempDisplaySettingManager = TempDisplaySettingManager(this)
 
         // set the title of the activity with setTitle()
         setTitle(R.string.forecast_details)
@@ -60,10 +72,10 @@ class ForecastDetailsActivity : AppCompatActivity() {
             .setTitle("Choose the display Units")
             .setMessage("Choose which temperature unit to use for temperature display")
             .setPositiveButton("F°"){ _, _  ->
-                Toast.makeText(this, "show using F", Toast.LENGTH_SHORT).show()
+                tempDisplaySettingManager.updateSetting(TempDisplaySetting.Fahrenheit)
             }
             .setNeutralButton("C°"){ _, _ ->
-                Toast.makeText(this, "show using C", Toast.LENGTH_SHORT).show()
+                tempDisplaySettingManager.updateSetting(TempDisplaySetting.Celsius)
             }
             .setOnDismissListener(){
                 Toast.makeText(this, "Settings will take place on app restart", Toast.LENGTH_SHORT).show()
