@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import com.akil.ad340.R
+import com.akil.ad340.formatTempForDisplay
 
 class ForecastDetailsActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
@@ -18,7 +19,8 @@ class ForecastDetailsActivity : AppCompatActivity() {
         val tempText = findViewById<TextView>(R.id.tempText)
         val descriptionText = findViewById<TextView>(R.id.descriptionText)
 
-        tempText.text = "${intent.getFloatExtra("key_temp", 0f)}°"
+        val temp = intent.getFloatExtra("key_temp", 0f)
+        tempText.text = formatTempForDisplay(temp)
         descriptionText.text = intent.getStringExtra("key_description")
 
     }

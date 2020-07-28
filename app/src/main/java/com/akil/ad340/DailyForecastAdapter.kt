@@ -15,7 +15,7 @@ class DailyForecastViewHolder(view: View): RecyclerView.ViewHolder(view){
 
     // This method binds the data to the views so that we can show some data
     fun bind(dailyForecast: DailyForecast){
-        tempText.text = String.format("%.2f", dailyForecast.temp)
+        tempText.text = formatTempForDisplay(dailyForecast.temp)
         descriptionText.text = dailyForecast.description
     }
 }
