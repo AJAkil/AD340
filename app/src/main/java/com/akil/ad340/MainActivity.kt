@@ -17,11 +17,15 @@ class MainActivity : AppCompatActivity() {
 
     // a repository reference created
     private val forecastRepository = ForecastRepository()
+    private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
 
     @SuppressLint("StringFormatMatches")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Setting up the setting manager reference to pass it to the adapter
+        tempDisplaySettingManager = TempDisplaySettingManager(this)
 
         val zipcodeEditText: EditText = findViewById(R.id.zipcodeEditText)
         val enterButton: Button = findViewById(R.id.enterButton)
@@ -48,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         * expects a callback that takes in a DailyForecast Item, so we create a lambda and pass in
         * that type of parameter and show a message related to this
         * */
-        val dailyForeCastAdapter = DailyForecastAdapter() { forecast ->
+        val dailyForeCastAdapter = DailyForecastAdapter(tempDisplaySettingManager) { forecast ->
             showForecastDetails(forecast)
         }
 

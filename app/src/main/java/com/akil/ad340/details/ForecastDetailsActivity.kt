@@ -37,7 +37,7 @@ class ForecastDetailsActivity : AppCompatActivity() {
         val descriptionText = findViewById<TextView>(R.id.descriptionText)
 
         val temp = intent.getFloatExtra("key_temp", 0f)
-        tempText.text = formatTempForDisplay(temp)
+        tempText.text = formatTempForDisplay(temp, tempDisplaySettingManager.getTempDisplaySetting())
         descriptionText.text = intent.getStringExtra("key_description")
 
     }
@@ -66,6 +66,8 @@ class ForecastDetailsActivity : AppCompatActivity() {
         }
     }
 
+    // This method shows up the dialog and saves the option in a shared preference of the manager
+    // class
     private fun showTempDisplaySettingDialog(){
         // We use an alert dialog builder to build the dialog without knowing much details
         val dialogBuilder = AlertDialog.Builder(this)

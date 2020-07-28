@@ -1,5 +1,11 @@
 package com.akil.ad340
 
-fun formatTempForDisplay(temp: Float): String {
-    return String.format("%.2f°",temp)
+fun formatTempForDisplay(temp: Float, tempDisplaySetting: TempDisplaySetting): String {
+    return when(tempDisplaySetting){
+        TempDisplaySetting.Fahrenheit -> String.format("%.2f F°", temp)
+        TempDisplaySetting.Celsius -> {
+            val celsiusTemp = (temp - 32f) * (5f/9f)
+            String.format("%.2f C°", celsiusTemp)
+        }
+    }
 }
