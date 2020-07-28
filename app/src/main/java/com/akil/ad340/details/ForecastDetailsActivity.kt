@@ -9,10 +9,7 @@ import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.akil.ad340.R
-import com.akil.ad340.TempDisplaySetting
-import com.akil.ad340.TempDisplaySettingManager
-import com.akil.ad340.formatTempForDisplay
+import com.akil.ad340.*
 
 class ForecastDetailsActivity : AppCompatActivity() {
 
@@ -54,36 +51,17 @@ class ForecastDetailsActivity : AppCompatActivity() {
         return true
     }
 
+    // Function to handle click on the options
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle the item selection
         return when(item.itemId){
             R.id.TempDisplaySetting -> {
              // Do something if the id of the item clicked is TempDisplaySetting
-                showTempDisplaySettingDialog()
+                showTempDisplaySettingDialog(this, tempDisplaySettingManager)
                 return true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    // This method shows up the dialog and saves the option in a shared preference of the manager
-    // class
-    private fun showTempDisplaySettingDialog(){
-        // We use an alert dialog builder to build the dialog without knowing much details
-        val dialogBuilder = AlertDialog.Builder(this)
-            .setTitle("Choose the display Units")
-            .setMessage("Choose which temperature unit to use for temperature display")
-            .setPositiveButton("F°"){ _, _  ->
-                tempDisplaySettingManager.updateSetting(TempDisplaySetting.Fahrenheit)
-            }
-            .setNeutralButton("C°"){ _, _ ->
-                tempDisplaySettingManager.updateSetting(TempDisplaySetting.Celsius)
-            }
-            .setOnDismissListener(){
-                Toast.makeText(this, "Settings will take place on app restart", Toast.LENGTH_SHORT).show()
-            }
-
-        // To actually build and show the dialog to the screen
-        dialogBuilder.show()
-    }
 }
