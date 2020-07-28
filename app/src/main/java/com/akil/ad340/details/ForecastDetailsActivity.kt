@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.akil.ad340.R
 import com.akil.ad340.formatTempForDisplay
 
@@ -46,10 +47,26 @@ class ForecastDetailsActivity : AppCompatActivity() {
         return when(item.itemId){
             R.id.TempDisplaySetting -> {
              // Do something if the id of the item clicked is TempDisplaySetting
-                Toast.makeText(this, "Menu Item selected", Toast.LENGTH_SHORT).show()
+                showTempDisplaySettingDialog()
                 return true
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun showTempDisplaySettingDialog(){
+        // We use an alert dialog builder to build the dialog without knowing much details
+        val dialogBuilder = AlertDialog.Builder(this)
+            .setTitle("Choose the display Units")
+            .setMessage("Choose which temperature unit to use for temperature display")
+            .setPositiveButton("F°"){ _, _  ->
+                Toast.makeText(this, "show using F", Toast.LENGTH_SHORT).show()
+            }
+            .setNeutralButton("C°"){ _, _ ->
+                Toast.makeText(this, "show using C", Toast.LENGTH_SHORT).show()
+            }
+
+        // To actually build and show the dialog to the screen
+        dialogBuilder.show()
     }
 }
