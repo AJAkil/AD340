@@ -65,6 +65,9 @@ class ForecastDetailsActivity : AppCompatActivity() {
             .setNeutralButton("C°"){ _, _ ->
                 Toast.makeText(this, "show using C", Toast.LENGTH_SHORT).show()
             }
+            .setOnDismissListener(){
+                Toast.makeText(this, "Settings will take place on app restart", Toast.LENGTH_SHORT).show()
+            }
 
         // To actually build and show the dialog to the screen
         dialogBuilder.show()
