@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akil.ad340.details.ForecastDetailsActivity
+import com.akil.ad340.location.LocationEntryFragment
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -74,6 +75,15 @@ class MainActivity : AppCompatActivity() {
         which updates the ListAdapter and since we passed lifecycle observer, all of these changes
         will bound to the lifecycle of the activity*/
         forecastRepository.weeklyForecast.observe(this,weeklyForecastObserver)
+
+
+        // Fragment Creation and Addition to the screen
+        // Also known as adding the fragment to the root view
+        // Basically adding the fragment to the root viewgroup which is the constraint layout
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.fragmentContainer, LocationEntryFragment())
+            .commit()
     }
 
     private fun showForecastDetails(forecast: DailyForecast){
