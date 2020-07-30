@@ -31,19 +31,6 @@ class MainActivity : AppCompatActivity() {
         // Setting up the setting manager reference to pass it to the adapter
         tempDisplaySettingManager = TempDisplaySettingManager(this)
 
-        val zipcodeEditText: EditText = findViewById(R.id.zipcodeEditText)
-        val enterButton: Button = findViewById(R.id.enterButton)
-
-        // Adding a click listener to the button to display whatever was entered to the edit text
-        enterButton.setOnClickListener{
-            val zipcode: String = zipcodeEditText.text.toString()
-            if (zipcode.length != 5 ){
-                Toast.makeText(this, R.string.zipcode_entry_error , Toast.LENGTH_SHORT).show()
-            } else{
-                forecastRepository.loadForecast(zipcode)
-                //Toast.makeText(this, zip code, Toast.LENGTH_SHORT).show()
-            }
-        }
 
         // Creating a Recycler View instance
         val forecastList: RecyclerView = findViewById(R.id.forecastList)

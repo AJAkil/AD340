@@ -9,55 +9,14 @@
 
     <FrameLayout
         android:id="@+id/fragmentContainer"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent=".3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="@dimen/zipcode_entry_icon_size"
-        android:layout_height="@dimen/zipcode_entry_icon_size"
-        android:src="@drawable/ic_baseline_location_on_24"
-        android:textSize="@dimen/title_text_height"
-        app:layout_constraintBottom_toTopOf="@+id/title"
-        app:layout_constraintEnd_toEndOf="@+id/title"
-        app:layout_constraintStart_toStartOf="@+id/title" />
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enter your zipcode"
-        android:textSize="@dimen/title_text_height"
-        app:layout_constraintBottom_toTopOf="@+id/zipcodeEditText"
-        app:layout_constraintEnd_toEndOf="@+id/zipcodeEditText"
-        app:layout_constraintStart_toStartOf="@+id/zipcodeEditText" />
-
-    <EditText
-        android:id="@+id/zipcodeEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="Enter zipcode"
-        android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragmentContainer"
-        app:layout_constraintVertical_bias="0.206" />
-
-    <Button
-        android:id="@+id/enterButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SUBMIT ZIPCODE"
-        app:layout_constraintEnd_toEndOf="@+id/zipcodeEditText"
-        app:layout_constraintStart_toStartOf="@+id/zipcodeEditText"
-        app:layout_constraintTop_toBottomOf="@+id/zipcodeEditText" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/forecastList"
@@ -70,5 +29,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enterButton" />
+        app:layout_constraintTop_toBottomOf="@+id/enterButton"
+        tools:listitem="@layout/item_daily_forecast"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
