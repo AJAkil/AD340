@@ -1,5 +1,6 @@
 package com.akil.ad340.forecast
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,12 +12,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akil.ad340.*
 import com.akil.ad340.details.ForecastDetailsActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class CurrentForecastFragment : Fragment() {
 
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
     private val forecastRepository = ForecastRepository()
+
+    // Interface type reference created
+    private lateinit var appNavigator: AppNavigator
+
+    // A lifecycle method, called when fragment is added to the activity
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        // We want to assign appNavigator the value of context
+        appNavigator = context as AppNavigator
+    }
 
 
     override fun onCreateView(
@@ -33,6 +45,14 @@ class CurrentForecastFragment : Fragment() {
 
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_current_forecast, container, false)
+
+        // Getting reference to the floating action button
+        val locationEntryButton = view.findViewById<FloatingActionButton>(R.id.locationEntryFragmentButton)
+
+        // Adding a click listener to the button
+        locationEntryButton.setOnClickListener {
+            appNavigator.navigateToLocationEntry()
+        }
 
 
         // Creating a Recycler View instance

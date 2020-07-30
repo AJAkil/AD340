@@ -77,4 +77,12 @@ class MainActivity : AppCompatActivity(),AppNavigator {
             .commit()
     }
 
+    // overriding this to go back to fragment
+    override fun navigateToLocationEntry() {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragmentContainer, LocationEntryFragment())
+            .commit()
+    }
+
 }
