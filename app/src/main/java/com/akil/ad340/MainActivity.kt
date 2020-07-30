@@ -14,13 +14,12 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akil.ad340.details.ForecastDetailsActivity
+import com.akil.ad340.forecast.CurrentForecastFragment
 import com.akil.ad340.location.LocationEntryFragment
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),AppNavigator {
 
-    // a repository reference created
-    private val forecastRepository = ForecastRepository()
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
 
     @SuppressLint("StringFormatMatches")
@@ -32,38 +31,6 @@ class MainActivity : AppCompatActivity() {
         tempDisplaySettingManager = TempDisplaySettingManager(this)
 
 
-        // Creating a Recycler View instance
-        val forecastList: RecyclerView = findViewById(R.id.forecastList)
-
-        // Instantiating the linear layout manager
-        forecastList.layoutManager = LinearLayoutManager(this)
-
-        /*
-        * So, we are passing a call back here that would be used in the Adaptor's bind. And it
-        * expects a callback that takes in a DailyForecast Item, so we create a lambda and pass in
-        * that type of parameter and show a message related to this
-        * */
-        val dailyForeCastAdapter = DailyForecastAdapter(tempDisplaySettingManager) { forecast ->
-            showForecastDetails(forecast)
-        }
-
-        // Setting the adapter
-        forecastList.adapter = dailyForeCastAdapter
-
-
-
-        val weeklyForecastObserver = Observer<List<DailyForecast>>{ forecastItems ->
-            // Update our List adapter
-            dailyForeCastAdapter.submitList(forecastItems)
-        }
-        /*we observe the weeklyForecast variable by the weeklyForecastObserver
-        A lifecycle owner, the main activity is passed here. Observer is also passed here
-        Any time live data changes in the repository due to some reasons, the observer is updated
-        which updates the ListAdapter and since we passed lifecycle observer, all of these changes
-        will bound to the lifecycle of the activity*/
-        forecastRepository.weeklyForecast.observe(this,weeklyForecastObserver)
-
-
         // Fragment Creation and Addition to the screen
         // Also known as adding the fragment to the root view
         // Basically adding the fragment to the root viewgroup which is the constraint layout
@@ -73,16 +40,7 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
-    private fun showForecastDetails(forecast: DailyForecast){
-        // Create a new intent to start the forecast details activity
-        val forecastDetailsIntent = Intent(this, ForecastDetailsActivity::class.java)
 
-        // Putting new Information to the intents before we start the activity
-        forecastDetailsIntent.putExtra("key_temp", forecast.temp)
-        forecastDetailsIntent.putExtra("key_description", forecast.description)
-        // Launching the activity
-        startActivity(forecastDetailsIntent)
-    }
 
     /*
     * This method inflates a menu to the screen
@@ -107,6 +65,16 @@ class MainActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    // overriding the method to go to next fragment
+    override fun navigateToCurrentForecast(zipcode: String) {
+        //Now we need to add the newly created fragment to the screen upon this method call when
+        // the button is pressed in the fragment
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragmentContainer, CurrentForecastFragment.newInstance(zipcode))
+            .commit()
     }
 
 }
