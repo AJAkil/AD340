@@ -20,6 +20,7 @@ class CurrentForecastFragment : Fragment() {
 
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
     private val forecastRepository = ForecastRepository()
+    private lateinit var locationRepository: LocationRepository
 
 
     override fun onCreateView(
@@ -64,8 +65,6 @@ class CurrentForecastFragment : Fragment() {
         // Setting the adapter
         forecastList.adapter = dailyForeCastAdapter
 
-
-
         val weeklyForecastObserver = Observer<List<DailyForecast>>{ forecastItems ->
             // Update our List adapter
             dailyForeCastAdapter.submitList(forecastItems)
@@ -75,9 +74,17 @@ class CurrentForecastFragment : Fragment() {
         Any time live data changes in the repository due to some reasons, the observer is updated
         which updates the ListAdapter and since we passed lifecycle observer, all of these changes
         will bound to the lifecycle of the activity*/
-        forecastRepository.weeklyForecast.observe(this,weeklyForecastObserver)
+        forecastRepository.weeklyForecast.observe(viewLifecycleOwner, weeklyForecastObserver)
 
-        forecastRepository.loadForecast(zipcode)
+        // Getting the zipcode from the sharedPreferences by observing the changes to the location
+        val savedLocationObserver = Observer<Location>{ savedLocation ->
+            when (savedLocation){
+                // calling the loadForecast of the forecastRepository so that data can be loaded from the database or API call
+                is Location.Zipcode -> forecastRepository.loadForecast(savedLocation.zipcode)
+            }
+        }
+
+        locationRepository.savedLocation.observe(viewLifecycleOwner, savedLocationObserver)
 
         return view
     }

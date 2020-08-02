@@ -9,15 +9,23 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import com.akil.ad340.Location
+import com.akil.ad340.LocationRepository
 import com.akil.ad340.R
 
 class LocationEntryFragment : Fragment() {
+
+    private lateinit var locationRepository: LocationRepository
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        //creating a new instance of location repository class
+        locationRepository = LocationRepository(requireContext())
+
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_location_entry, container, false)
 
@@ -34,6 +42,8 @@ class LocationEntryFragment : Fragment() {
             } else{
                 // calling the concrete implementation of the method
                 // navigate up will pop this off the backstack and go back to what there was previously
+                // Any time we enter a zipcode we want to store the data in a location repository
+                locationRepository.saveLocation(Location.Zipcode(zipcode))
                 findNavController().navigateUp()
             }
         }
