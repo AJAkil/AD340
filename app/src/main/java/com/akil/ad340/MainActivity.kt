@@ -6,7 +6,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.appcompat.widget.Toolbar
 import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.akil.ad340.forecast.CurrentForecastFragmentDirections
 import com.akil.ad340.location.LocationEntryFragmentDirections
 
@@ -21,6 +24,14 @@ class MainActivity : AppCompatActivity(),AppNavigator {
 
         // Setting up the setting manager reference to pass it to the adapter
         tempDisplaySettingManager = TempDisplaySettingManager(this)
+
+        // A reference to the nav controller
+        val navController = findNavController(R.id.nav_host_fragment)
+        // An appbarConfiguration based on our navigation graph
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        // A reference to our toolbar to connect to the nav controller and appbarconfiguration
+        findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController,appBarConfiguration)
+
 
     }
 
