@@ -11,11 +11,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akil.ad340.details.ForecastDetailsActivity
 import com.akil.ad340.forecast.CurrentForecastFragment
 import com.akil.ad340.location.LocationEntryFragment
+import com.akil.ad340.location.LocationEntryFragmentDirections
 import java.util.*
 
 class MainActivity : AppCompatActivity(),AppNavigator {
@@ -63,10 +65,11 @@ class MainActivity : AppCompatActivity(),AppNavigator {
     override fun navigateToCurrentForecast(zipcode: String) {
         //Now we need to add the newly created fragment to the screen upon this method call when
         // the button is pressed in the fragment
-//        supportFragmentManager
-//            .beginTransaction()
-//            .replace(R.id.fragmentContainer, CurrentForecastFragment.newInstance(zipcode))
-//            .commit()
+
+        // A reference for navigation action
+        val action = LocationEntryFragmentDirections.actionLocationEntryFragmentToCurrentForecastFragment2()
+        // No we make use of this action reference with an activity method
+        findNavController(R.id.nav_host_fragment).navigate(action)
     }
 
     // overriding this to go back to fragment
