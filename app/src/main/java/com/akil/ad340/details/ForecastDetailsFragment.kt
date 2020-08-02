@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.akil.ad340.*
 
 class ForecastDetailsFragment : Fragment() {
@@ -15,6 +16,11 @@ class ForecastDetailsFragment : Fragment() {
      and a context is not created in android until the onCreate is called on android
     */
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
+
+    // A property that would help us to receive data when navigation happens. This is of special
+    // class called ForecastDetailsFragmentArgs. navArgs is a delegate function. THis would look
+    // up the args and get the data for us
+    private val args: ForecastDetailsFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,9 +35,8 @@ class ForecastDetailsFragment : Fragment() {
         val tempText = layout.findViewById<TextView>(R.id.tempText)
         val descriptionText = layout.findViewById<TextView>(R.id.descriptionText)
 
-//        val temp = intent.getFloatExtra("key_temp", 0f)
-//        tempText.text = formatTempForDisplay(temp, tempDisplaySettingManager.getTempDisplaySetting())
-//        descriptionText.text = intent.getStringExtra("key_description")
+        tempText.text = formatTempForDisplay(args.temp, tempDisplaySettingManager.getTempDisplaySetting())
+        descriptionText.text = args.description
 
         return layout
     }

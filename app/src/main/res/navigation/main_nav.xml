@@ -32,5 +32,12 @@
         android:id="@+id/forecastDetailsFragment"
         android:name="com.akil.ad340.details.ForecastDetailsFragment"
         android:label="fragment_forecast_details"
-        tools:layout="@layout/fragment_forecast_details" />
+        tools:layout="@layout/fragment_forecast_details" >
+        <argument
+            android:name="temp"
+            app:argType="float" />
+        <argument
+            android:name="description"
+            app:argType="string" />
+    </fragment>
 </navigation>

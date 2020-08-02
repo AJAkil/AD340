@@ -16,7 +16,7 @@ class TempDisplaySettingManager (context: Context){
 
     // We are going to update our preferences with the setting value from the enum class we made
     fun updateSetting(setting: TempDisplaySetting){
-        preferences.edit().putString("key_temp_display", setting.name).commit()
+        preferences.edit().putString("key_temp_display", setting.name).apply()
     }
 
     fun getTempDisplaySetting(): TempDisplaySetting{
