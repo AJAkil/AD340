@@ -11,7 +11,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.akil.ad340.forecast.CurrentForecastFragmentDirections
-import com.akil.ad340.location.LocationEntryFragmentDirections
 
 class MainActivity : AppCompatActivity(),AppNavigator {
 
@@ -68,9 +67,9 @@ class MainActivity : AppCompatActivity(),AppNavigator {
         // the button is pressed in the fragment
 
         // A reference for navigation action
-        val action = LocationEntryFragmentDirections.actionLocationEntryFragmentToCurrentForecastFragment2()
-        // No we make use of this action reference with an activity method
-        findNavController(R.id.nav_host_fragment).navigate(action)
+//        val action = LocationEntryFragmentDirections.actionLocationEntryFragmentToCurrentForecastFragment2()
+//        // No we make use of this action reference with an activity method
+//        findNavController(R.id.nav_host_fragment).navigate(action)
     }
 
     // overriding this to go back to fragment
