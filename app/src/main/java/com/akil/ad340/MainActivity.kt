@@ -1,25 +1,14 @@
 package com.akil.ad340
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.akil.ad340.details.ForecastDetailsActivity
-import com.akil.ad340.forecast.CurrentForecastFragment
 import com.akil.ad340.forecast.CurrentForecastFragmentDirections
-import com.akil.ad340.location.LocationEntryFragment
 import com.akil.ad340.location.LocationEntryFragmentDirections
-import java.util.*
 
 class MainActivity : AppCompatActivity(),AppNavigator {
 
@@ -81,6 +70,11 @@ class MainActivity : AppCompatActivity(),AppNavigator {
 //            .commit()
         val action = CurrentForecastFragmentDirections.actionCurrentForecastFragmentToLocationEntryFragment()
         findNavController(R.id.nav_host_fragment).navigate(action)
+    }
+
+    // method to navigate to the new fragment
+    override fun navigateToForecastDetails(forecast: DailyForecast) {
+
     }
 
 }

@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akil.ad340.*
-import com.akil.ad340.details.ForecastDetailsActivity
+import com.akil.ad340.details.ForecastDetailsFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
@@ -91,15 +91,9 @@ class CurrentForecastFragment : Fragment() {
         return view
     }
 
+    // This method will navigate to the required fragment with the required parameters
     private fun showForecastDetails(forecast: DailyForecast){
-        // Create a new intent to start the forecast details activity
-        val forecastDetailsIntent = Intent(requireContext(), ForecastDetailsActivity::class.java)
-
-        // Putting new Information to the intents before we start the activity
-        forecastDetailsIntent.putExtra("key_temp", forecast.temp)
-        forecastDetailsIntent.putExtra("key_description", forecast.description)
-        // Launching the activity
-        startActivity(forecastDetailsIntent)
+        appNavigator.navigateToForecastDetails(forecast)
     }
 
     /*
