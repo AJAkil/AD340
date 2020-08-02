@@ -38,5 +38,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@android:color/white"/>
+        android:background="@android:color/white"
+        app:menu="@menu/main_nav"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
