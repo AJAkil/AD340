@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akil.ad340.details.ForecastDetailsActivity
 import com.akil.ad340.forecast.CurrentForecastFragment
+import com.akil.ad340.forecast.CurrentForecastFragmentDirections
 import com.akil.ad340.location.LocationEntryFragment
 import com.akil.ad340.location.LocationEntryFragmentDirections
 import java.util.*
@@ -78,6 +79,8 @@ class MainActivity : AppCompatActivity(),AppNavigator {
 //            .beginTransaction()
 //            .replace(R.id.fragmentContainer, LocationEntryFragment())
 //            .commit()
+        val action = CurrentForecastFragmentDirections.actionCurrentForecastFragmentToLocationEntryFragment()
+        findNavController(R.id.nav_host_fragment).navigate(action)
     }
 
 }
