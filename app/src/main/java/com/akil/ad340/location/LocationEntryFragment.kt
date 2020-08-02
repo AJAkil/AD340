@@ -12,12 +12,6 @@ import android.widget.Toast
 import com.akil.ad340.AppNavigator
 import com.akil.ad340.R
 
-
-/**
- * A simple [Fragment] subclass.
- * Use the [LocationEntryFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class LocationEntryFragment : Fragment() {
 
     // Interface type reference created

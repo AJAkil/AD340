@@ -30,14 +30,6 @@ class MainActivity : AppCompatActivity(),AppNavigator {
         // Setting up the setting manager reference to pass it to the adapter
         tempDisplaySettingManager = TempDisplaySettingManager(this)
 
-
-        // Fragment Creation and Addition to the screen
-        // Also known as adding the fragment to the root view
-        // Basically adding the fragment to the root viewgroup which is the constraint layout
-        supportFragmentManager
-            .beginTransaction()
-            .add(R.id.fragmentContainer, LocationEntryFragment())
-            .commit()
     }
 
 
@@ -71,18 +63,18 @@ class MainActivity : AppCompatActivity(),AppNavigator {
     override fun navigateToCurrentForecast(zipcode: String) {
         //Now we need to add the newly created fragment to the screen upon this method call when
         // the button is pressed in the fragment
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fragmentContainer, CurrentForecastFragment.newInstance(zipcode))
-            .commit()
+//        supportFragmentManager
+//            .beginTransaction()
+//            .replace(R.id.fragmentContainer, CurrentForecastFragment.newInstance(zipcode))
+//            .commit()
     }
 
     // overriding this to go back to fragment
     override fun navigateToLocationEntry() {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fragmentContainer, LocationEntryFragment())
-            .commit()
+//        supportFragmentManager
+//            .beginTransaction()
+//            .replace(R.id.fragmentContainer, LocationEntryFragment())
+//            .commit()
     }
 
 }
