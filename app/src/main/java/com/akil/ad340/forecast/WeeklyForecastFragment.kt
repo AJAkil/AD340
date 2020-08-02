@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akil.ad340.*
@@ -19,16 +20,6 @@ class WeeklyForecastFragment : Fragment() {
 
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
     private val forecastRepository = ForecastRepository()
-
-    // Interface type reference created
-    private lateinit var appNavigator: AppNavigator
-
-    // A lifecycle method, called when fragment is added to the activity
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        // We want to assign appNavigator the value of context
-        appNavigator = context as AppNavigator
-    }
 
 
     override fun onCreateView(
@@ -51,7 +42,7 @@ class WeeklyForecastFragment : Fragment() {
 
         // Adding a click listener to the button
         locationEntryButton.setOnClickListener {
-            appNavigator.navigateToLocationEntry()
+            showLocationEntry()
         }
 
 
@@ -89,9 +80,15 @@ class WeeklyForecastFragment : Fragment() {
         return view
     }
 
+    private fun showLocationEntry(){
+        val action = WeeklyForecastFragmentDirections.actionWeeklyForecastFragmentToLocationEntryFragment()
+        findNavController().navigate(action)
+    }
+
     // This method will navigate to the required fragment with the required parameters
     private fun showForecastDetails(forecast: DailyForecast){
-        appNavigator.navigateToForecastDetails(forecast)
+        val action = WeeklyForecastFragmentDirections.actionWeeklyForecastFragmentToForecastDetailsFragment(forecast.temp, forecast.description)
+        findNavController().navigate(action)
     }
 
     /*
