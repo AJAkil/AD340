@@ -79,7 +79,7 @@ class WeeklyForecastFragment : Fragment() {
         locationRepository = LocationRepository(requireContext())
         val savedLocationObserver = Observer<Location>{ savedLocation ->
             when (savedLocation){
-                is Location.Zipcode -> forecastRepository.loadForecast(savedLocation.zipcode)
+                is Location.Zipcode -> forecastRepository.loadWeeklyForecast(savedLocation.zipcode)
             }
         }
 

@@ -11,8 +11,12 @@ class ForecastRepository {
     // Public Live data so that activity can get access to it
     val weeklyForecast : LiveData<List<DailyForecast>> = _weeklyForecast
 
+    private val _currentForecast = MutableLiveData<DailyForecast>()
+    val currentForecast : LiveData<DailyForecast> = _currentForecast
+
+
     // A method for loading data so that we can pass it to the activity
-    fun loadForecast(zipcode: String){
+    fun loadWeeklyForecast(zipcode: String){
         // Randomly Loading list of seven values
         val randomValues = List(10) { Random.nextFloat().rem(100) * 100 }
         // A list variable for making the data class objects
@@ -21,7 +25,14 @@ class ForecastRepository {
         }
 
         // the private variable is updated with the list, and the public variable will also be updated
-        _weeklyForecast.setValue(forecastItems)
+        _weeklyForecast.value = forecastItems
+    }
+
+    // A method for loading data to the current forecast fragment
+    fun loadCurrentForecast(zipcode: String){
+        val randomTemp = Random.nextFloat().rem(100) * 100
+        val forecast = DailyForecast(randomTemp, getTempDescription(randomTemp))
+        _currentForecast.value = forecast
     }
 
     private fun getTempDescription(temp: Float): String{

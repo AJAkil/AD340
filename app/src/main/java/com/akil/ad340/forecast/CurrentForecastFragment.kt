@@ -64,23 +64,22 @@ class CurrentForecastFragment : Fragment() {
 
         // Setting the adapter
         forecastList.adapter = dailyForeCastAdapter
-
-        val weeklyForecastObserver = Observer<List<DailyForecast>>{ forecastItems ->
-            // Update our List adapter
-            dailyForeCastAdapter.submitList(forecastItems)
+        val currentForecastObserver =  Observer<DailyForecast>{ forecastItem->
+            dailyForeCastAdapter.submitList(listOf(forecastItem))
         }
         /*we observe the weeklyForecast variable by the weeklyForecastObserver
         A lifecycle owner, the main activity is passed here. Observer is also passed here
         Any time live data changes in the repository due to some reasons, the observer is updated
         which updates the ListAdapter and since we passed lifecycle observer, all of these changes
         will bound to the lifecycle of the activity*/
-        forecastRepository.weeklyForecast.observe(viewLifecycleOwner, weeklyForecastObserver)
+        forecastRepository.currentForecast.observe(viewLifecycleOwner,currentForecastObserver)
 
         // Getting the zipcode from the sharedPreferences by observing the changes to the location
+        locationRepository = LocationRepository(requireContext())
         val savedLocationObserver = Observer<Location>{ savedLocation ->
             when (savedLocation){
                 // calling the loadForecast of the forecastRepository so that data can be loaded from the database or API call
-                is Location.Zipcode -> forecastRepository.loadForecast(savedLocation.zipcode)
+                is Location.Zipcode -> forecastRepository.loadCurrentForecast(savedLocation.zipcode)
             }
         }
 
