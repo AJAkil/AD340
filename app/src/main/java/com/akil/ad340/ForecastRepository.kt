@@ -30,9 +30,7 @@ class ForecastRepository {
 
     // A method for loading data to the current forecast fragment
     fun loadCurrentForecast(zipcode: String){
-        val randomTemp = Random.nextFloat().rem(100) * 100
-        val forecast = DailyForecast(randomTemp, getTempDescription(randomTemp))
-        _currentForecast.value = forecast
+
     }
 
     private fun getTempDescription(temp: Float): String{
