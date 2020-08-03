@@ -1,7 +1,14 @@
 package com.akil.ad340
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.akil.ad340.api.CurrentWeather
+import com.akil.ad340.api.OpenWeatherMapService
+import com.akil.ad340.api.createOpenWeatherService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import kotlin.random.Random
 
 class ForecastRepository {
@@ -11,8 +18,8 @@ class ForecastRepository {
     // Public Live data so that activity can get access to it
     val weeklyForecast : LiveData<List<DailyForecast>> = _weeklyForecast
 
-    private val _currentForecast = MutableLiveData<DailyForecast>()
-    val currentForecast : LiveData<DailyForecast> = _currentForecast
+    private val _currentWeather = MutableLiveData<CurrentWeather>()
+    val currentWeather : LiveData<CurrentWeather> = _currentWeather
 
 
     // A method for loading data so that we can pass it to the activity
@@ -30,6 +37,24 @@ class ForecastRepository {
 
     // A method for loading data to the current forecast fragment
     fun loadCurrentForecast(zipcode: String){
+        val call = createOpenWeatherService().currentWeather(zipcode,"imperial",BuildConfig.OPEN_WEATHER_MAP_API_KEY)
+        call.enqueue(object : Callback<CurrentWeather>{
+            override fun onFailure(call: Call<CurrentWeather>, t: Throwable) {
+                Log.e(ForecastRepository::class.java.simpleName,"error fetching weather data", t)
+            }
+
+            override fun onResponse(
+                call: Call<CurrentWeather>,
+                response: Response<CurrentWeather>
+            ) {
+                val weatherResponse = response.body()
+
+                if (weatherResponse != null){
+                    _currentWeather.value = weatherResponse
+                }
+            }
+
+        })
 
     }
 

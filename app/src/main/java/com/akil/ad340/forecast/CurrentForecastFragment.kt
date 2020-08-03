@@ -72,7 +72,7 @@ class CurrentForecastFragment : Fragment() {
         Any time live data changes in the repository due to some reasons, the observer is updated
         which updates the ListAdapter and since we passed lifecycle observer, all of these changes
         will bound to the lifecycle of the activity*/
-        forecastRepository.currentForecast.observe(viewLifecycleOwner,currentForecastObserver)
+        forecastRepository.currentWeather.observe(viewLifecycleOwner,currentForecastObserver)
 
         // Getting the zipcode from the sharedPreferences by observing the changes to the location
         locationRepository = LocationRepository(requireContext())
