@@ -19,6 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class WeeklyForecastFragment : Fragment() {
 
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
+    private lateinit var locationRepository: LocationRepository
     private val forecastRepository = ForecastRepository()
 
 
@@ -73,9 +74,16 @@ class WeeklyForecastFragment : Fragment() {
         Any time live data changes in the repository due to some reasons, the observer is updated
         which updates the ListAdapter and since we passed lifecycle observer, all of these changes
         will bound to the lifecycle of the activity*/
-        forecastRepository.weeklyForecast.observe(this,weeklyForecastObserver)
+        forecastRepository.weeklyForecast.observe(viewLifecycleOwner,weeklyForecastObserver)
 
-        forecastRepository.loadForecast(zipcode)
+        locationRepository = LocationRepository(requireContext())
+        val savedLocationObserver = Observer<Location>{ savedLocation ->
+            when (savedLocation){
+                is Location.Zipcode -> forecastRepository.loadForecast(savedLocation.zipcode)
+            }
+        }
+
+        locationRepository.savedLocation.observe(viewLifecycleOwner,savedLocationObserver)
 
         return view
     }
