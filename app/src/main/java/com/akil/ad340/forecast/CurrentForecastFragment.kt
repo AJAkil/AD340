@@ -54,7 +54,6 @@ class CurrentForecastFragment : Fragment() {
 
         val currentWeatherObserver =  Observer<CurrentWeather>{ weather->
             locationName.text = weather.name
-            print(weather.name)
             tempText.text = formatTempForDisplay(weather.forecast.temp, tempDisplaySettingManager.getTempDisplaySetting())
         }
         /*we observe the weeklyForecast variable by the weeklyForecastObserver
