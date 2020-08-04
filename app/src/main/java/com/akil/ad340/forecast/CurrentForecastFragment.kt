@@ -7,11 +7,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.api.load
 import com.akil.ad340.*
 import com.akil.ad340.api.CurrentWeather
 import com.akil.ad340.api.DailyForecast
@@ -42,6 +44,7 @@ class CurrentForecastFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_current_forecast, container, false)
         val locationName : TextView = view.findViewById(R.id.locationName)
         val tempText: TextView = view.findViewById(R.id.tempText)
+        val forecastIcon: ImageView = view.findViewById(R.id.currentForecastIcon)
 
         // Getting reference to the floating action button
         val locationEntryButton = view.findViewById<FloatingActionButton>(R.id.locationEntryFragmentButton)
@@ -55,6 +58,9 @@ class CurrentForecastFragment : Fragment() {
         val currentWeatherObserver =  Observer<CurrentWeather>{ weather->
             locationName.text = weather.name
             tempText.text = formatTempForDisplay(weather.forecast.temp, tempDisplaySettingManager.getTempDisplaySetting())
+
+            val iconID = weather.weather[0].icon
+            forecastIcon.load("http://openweathermap.org/img/wn/${iconID}@2x.png")
         }
         /*we observe the weeklyForecast variable by the weeklyForecastObserver
         A lifecycle owner, the main activity is passed here. Observer is also passed here
