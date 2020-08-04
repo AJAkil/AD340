@@ -37,7 +37,8 @@ class ForecastRepository {
 
     // A method for loading data to the current forecast fragment
     fun loadCurrentForecast(zipcode: String){
-        val call = createOpenWeatherService().currentWeather(zipcode,"imperial",BuildConfig.OPEN_WEATHER_MAP_API_KEY)
+        print(zipcode)
+        val call = createOpenWeatherService().currentWeather(zipcode,BuildConfig.OPEN_WEATHER_MAP_API_KEY,"imperial")
         call.enqueue(object : Callback<CurrentWeather>{
             override fun onFailure(call: Call<CurrentWeather>, t: Throwable) {
                 Log.e(ForecastRepository::class.java.simpleName,"error fetching weather data", t)

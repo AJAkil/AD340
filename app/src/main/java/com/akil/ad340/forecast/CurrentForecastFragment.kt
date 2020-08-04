@@ -7,11 +7,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akil.ad340.*
+import com.akil.ad340.api.CurrentWeather
 import com.akil.ad340.details.ForecastDetailsFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -37,6 +39,8 @@ class CurrentForecastFragment : Fragment() {
 
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_current_forecast, container, false)
+        val locationName : TextView = view.findViewById(R.id.locationName)
+        val tempText: TextView = view.findViewById(R.id.tempText)
 
         // Getting reference to the floating action button
         val locationEntryButton = view.findViewById<FloatingActionButton>(R.id.locationEntryFragmentButton)
@@ -47,32 +51,17 @@ class CurrentForecastFragment : Fragment() {
         }
 
 
-        // Creating a Recycler View instance
-        val forecastList: RecyclerView = view.findViewById(R.id.forecastList)
-
-        // Instantiating the linear layout manager
-        forecastList.layoutManager = LinearLayoutManager(requireContext())
-
-        /*
-        * So, we are passing a call back here that would be used in the Adaptor's bind. And it
-        * expects a callback that takes in a DailyForecast Item, so we create a lambda and pass in
-        * that type of parameter and show a message related to this
-        * */
-        val dailyForeCastAdapter = DailyForecastAdapter(tempDisplaySettingManager) { forecast ->
-            showForecastDetails(forecast)
-        }
-
-        // Setting the adapter
-        forecastList.adapter = dailyForeCastAdapter
-        val currentForecastObserver =  Observer<DailyForecast>{ forecastItem->
-            dailyForeCastAdapter.submitList(listOf(forecastItem))
+        val currentWeatherObserver =  Observer<CurrentWeather>{ weather->
+            locationName.text = weather.name
+            print(weather.name)
+            tempText.text = formatTempForDisplay(weather.forecast.temp, tempDisplaySettingManager.getTempDisplaySetting())
         }
         /*we observe the weeklyForecast variable by the weeklyForecastObserver
         A lifecycle owner, the main activity is passed here. Observer is also passed here
         Any time live data changes in the repository due to some reasons, the observer is updated
         which updates the ListAdapter and since we passed lifecycle observer, all of these changes
         will bound to the lifecycle of the activity*/
-        forecastRepository.currentWeather.observe(viewLifecycleOwner,currentForecastObserver)
+        forecastRepository.currentWeather.observe(viewLifecycleOwner,currentWeatherObserver)
 
         // Getting the zipcode from the sharedPreferences by observing the changes to the location
         locationRepository = LocationRepository(requireContext())
