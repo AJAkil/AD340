@@ -32,7 +32,9 @@ class MainActivity : AppCompatActivity() {
         // An appbarConfiguration based on our navigation graph
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         // A reference to our toolbar to connect to the nav controller and appbarconfiguration
-        findViewById<Toolbar>(R.id.toolbar).setTitle(R.string.app_name)
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        toolbar.setTitle(R.string.app_name)
+        toolbar.inflateMenu(R.menu.settings_menu)
 
         // Adding the bottom navigation menu to the nav controller through the following lines of code
         findViewById<BottomNavigationView>(R.id.bottomNavigationView).setupWithNavController(navController)
@@ -61,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             R.id.TempDisplaySetting -> {
                 // Do something if the id of the item clicked is TempDisplaySetting
                 showTempDisplaySettingDialog(this, tempDisplaySettingManager)
-                return true
+                true
             }
             else -> super.onOptionsItemSelected(item)
         }
