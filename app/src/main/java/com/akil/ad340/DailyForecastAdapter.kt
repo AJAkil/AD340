@@ -1,5 +1,6 @@
 package com.akil.ad340
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.akil.ad340.api.DailyForecast
+import java.text.SimpleDateFormat
+import java.util.*
+
+@SuppressLint("SimpleDateFormat")
+private val DATE_FORMAT = SimpleDateFormat("MM-dd-yyyy")
 
 class DailyForecastViewHolder(
     view: View,
@@ -16,11 +23,13 @@ class DailyForecastViewHolder(
 
     private val tempText: TextView = view.findViewById(R.id.tempText)
     private val descriptionText: TextView = view.findViewById(R.id.descriptionText)
+    private val dateText = view.findViewById<TextView>(R.id.dateText)
 
     // This method binds the data to the views so that we can show some data
     fun bind(dailyForecast: DailyForecast){
-        tempText.text = formatTempForDisplay(dailyForecast.temp, tempDisplaySettingManager.getTempDisplaySetting())
-        descriptionText.text = dailyForecast.description
+        tempText.text = formatTempForDisplay(dailyForecast.temp.max, tempDisplaySettingManager.getTempDisplaySetting())
+        descriptionText.text = dailyForecast.weather[0].description
+        dateText.text = DATE_FORMAT.format(Date(dailyForecast.date * 100))
     }
 }
 

@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:foreground="?attr/selectableItemBackground"
     android:clickable="true"
-    >
+    android:foreground="?attr/selectableItemBackground">
 
     <TextView
         android:id="@+id/tempText"
@@ -15,7 +14,7 @@
         android:layout_marginStart="24dp"
         android:text="70.0"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/dateText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,4 +28,13 @@
         app:layout_constraintBottom_toBottomOf="@+id/tempText"
         app:layout_constraintStart_toEndOf="@+id/tempText"
         app:layout_constraintTop_toTopOf="@+id/tempText" />
+
+    <TextView
+        android:id="@+id/dateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tempText"
+        app:layout_constraintTop_toBottomOf="@+id/tempText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

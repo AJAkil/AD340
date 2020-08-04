@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.akil.ad340.api.CurrentWeather
 import com.akil.ad340.api.OpenWeatherMapService
+import com.akil.ad340.api.WeeklyForecast
 import com.akil.ad340.api.createOpenWeatherService
 import retrofit2.Call
 import retrofit2.Callback
@@ -14,9 +15,9 @@ import kotlin.random.Random
 class ForecastRepository {
 
     //this will let us update that observable valueHolder internally to that class
-    private val _weeklyForecast = MutableLiveData<List<DailyForecast>>()
+    private val _weeklyForecast = MutableLiveData<WeeklyForecast>()
     // Public Live data so that activity can get access to it
-    val weeklyForecast : LiveData<List<DailyForecast>> = _weeklyForecast
+    val weeklyForecast : LiveData<WeeklyForecast> = _weeklyForecast
 
     private val _currentWeather = MutableLiveData<CurrentWeather>()
     val currentWeather : LiveData<CurrentWeather> = _currentWeather
@@ -24,15 +25,7 @@ class ForecastRepository {
 
     // A method for loading data so that we can pass it to the activity
     fun loadWeeklyForecast(zipcode: String){
-        // Randomly Loading list of seven values
-        val randomValues = List(10) { Random.nextFloat().rem(100) * 100 }
-        // A list variable for making the data class objects
-        val forecastItems = randomValues.map {temp ->
-            DailyForecast(temp,getTempDescription(temp))
-        }
 
-        // the private variable is updated with the list, and the public variable will also be updated
-        _weeklyForecast.value = forecastItems
     }
 
     // A method for loading data to the current forecast fragment
