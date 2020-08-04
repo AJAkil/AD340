@@ -25,7 +25,46 @@ class ForecastRepository {
 
     // A method for loading data so that we can pass it to the activity
     fun loadWeeklyForecast(zipcode: String){
+        val call = createOpenWeatherService().currentWeather(zipcode,BuildConfig.OPEN_WEATHER_MAP_API_KEY,"imperial")
+        call.enqueue(object : Callback<CurrentWeather>{
+            override fun onFailure(call: Call<CurrentWeather>, t: Throwable) {
+                Log.e(ForecastRepository::class.java.simpleName,"error loading location for weekly forecast", t)
+            }
 
+            override fun onResponse(
+                call: Call<CurrentWeather>,
+                response: Response<CurrentWeather>
+            ) {
+                val weatherResponse = response.body()
+
+                if (weatherResponse != null){
+                    // Load 7 day forecast here
+                    val forecastCall = createOpenWeatherService().sevenDayForecast(
+                        lat = weatherResponse.coord.lat,
+                        lon = weatherResponse.coord.lon,
+                        exclude = "current,minutely,hourly",
+                        units = "imperial",
+                        apiKey = BuildConfig.OPEN_WEATHER_MAP_API_KEY
+                    )
+
+                    forecastCall.enqueue(object : Callback<WeeklyForecast>{
+                        override fun onFailure(call: Call<WeeklyForecast>, t: Throwable) {
+                            Log.e(ForecastRepository::class.java.simpleName,"error loading weekly forecast")
+                        }
+
+                        override fun onResponse(
+                            call: Call<WeeklyForecast>,
+                            response: Response<WeeklyForecast>
+                        ) {
+                            val weeklyForecastResponse = response.body()
+                            _weeklyForecast.value = weeklyForecastResponse
+                        }
+
+                    })
+                }
+            }
+
+        })
     }
 
     // A method for loading data to the current forecast fragment

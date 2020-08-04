@@ -83,11 +83,6 @@ class CurrentForecastFragment : Fragment() {
         findNavController().navigate(action)
     }
 
-    // This method will navigate to the required fragment with the required parameters
-    private fun showForecastDetails(forecast: DailyForecast){
-        val action = CurrentForecastFragmentDirections.actionCurrentForecastFragmentToForecastDetailsFragment(forecast.temp, forecast.description)
-        findNavController().navigate(action)
-    }
 
     /*
     This is like static methods like java

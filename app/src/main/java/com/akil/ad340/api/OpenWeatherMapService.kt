@@ -33,6 +33,6 @@ interface OpenWeatherMapService {
         @Query("exclude") exclude: String,
         @Query("units") units: String,
         @Query("appid") apiKey: String
-    ): Call<CurrentWeather>
+    ): Call<WeeklyForecast>
 
 }
