@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.*
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.akil.ad340.*
 import com.akil.ad340.databinding.FragmentForecastDetailsBinding
@@ -23,6 +25,16 @@ class ForecastDetailsFragment : Fragment() {
     // up the args and get the data for us
     private val args: ForecastDetailsFragmentArgs by navArgs()
 
+    private lateinit var viewModelFactory: ForecastDetailsViewModelFactory
+
+    // what the lambda is doing is that when the viewModels() does it's magic behind the scene,
+    // it will use our Factory to do so
+    private val viewModel: ForecastDetailsViewModel by viewModels(
+        factoryProducer = { viewModelFactory }
+    )
+
+
+
     private var _binding: FragmentForecastDetailsBinding? = null
     // This property only valid between onCreateView and onDestroyView
     private val binding:FragmentForecastDetailsBinding get()= _binding!!
@@ -33,14 +45,26 @@ class ForecastDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentForecastDetailsBinding.inflate(inflater,container,false)
-
+        viewModelFactory = ForecastDetailsViewModelFactory(args)
         // Create a reference to the TempDisplaySettingManager
         tempDisplaySettingManager = TempDisplaySettingManager(requireContext())
-
-        binding.tempText.text = formatTempForDisplay(args.temp, tempDisplaySettingManager.getTempDisplaySetting())
-        binding.descriptionText.text = args.description
-
         return binding.root
+    }
+
+    // We are going to observe the live data using another lifecycle method
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // We are going to create a live data observer
+        val viewStateObserver = Observer<ForecastDetailsViewState>{ viewState ->
+            // update the UI
+            binding.tempText.text = formatTempForDisplay(viewState.temp,tempDisplaySettingManager.getTempDisplaySetting())
+            binding.descriptionText.text = viewState.description
+        }
+
+        // No we actually want to observe the values
+        viewModel.viewState.observe(viewLifecycleOwner,viewStateObserver)
+
     }
 
     override fun onDestroyView() {
