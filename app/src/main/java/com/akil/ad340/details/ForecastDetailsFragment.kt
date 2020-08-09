@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.akil.ad340.*
+import com.akil.ad340.databinding.FragmentForecastDetailsBinding
 
 class ForecastDetailsFragment : Fragment() {
 
@@ -22,23 +23,31 @@ class ForecastDetailsFragment : Fragment() {
     // up the args and get the data for us
     private val args: ForecastDetailsFragmentArgs by navArgs()
 
+    private var _binding: FragmentForecastDetailsBinding? = null
+    // This property only valid between onCreateView and onDestroyView
+    private val binding:FragmentForecastDetailsBinding get()= _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val layout = inflater.inflate(R.layout.fragment_forecast_details, container, false)
+        _binding = FragmentForecastDetailsBinding.inflate(inflater,container,false)
 
         // Create a reference to the TempDisplaySettingManager
         tempDisplaySettingManager = TempDisplaySettingManager(requireContext())
 
-        val tempText = layout.findViewById<TextView>(R.id.tempText)
-        val descriptionText = layout.findViewById<TextView>(R.id.descriptionText)
+        binding.tempText.text = formatTempForDisplay(args.temp, tempDisplaySettingManager.getTempDisplaySetting())
+        binding.descriptionText.text = args.description
 
-        tempText.text = formatTempForDisplay(args.temp, tempDisplaySettingManager.getTempDisplaySetting())
-        descriptionText.text = args.description
+        return binding.root
+    }
 
-        return layout
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // we are declaring the reference to the binding.
+        // this will keep app performant
+        _binding = null
     }
 
 

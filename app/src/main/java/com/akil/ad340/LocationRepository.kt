@@ -21,7 +21,7 @@ class LocationRepository(context: Context) {
     // just like a constructor body, when an instance is made, it will look for the zipcode that
     // was saved on the shared preferences
     init {
-        preferences.registerOnSharedPreferenceChangeListener{ sharedPreferences, key ->
+        preferences.registerOnSharedPreferenceChangeListener{ _, key ->
             if (key != KEY_ZIPCODE) return@registerOnSharedPreferenceChangeListener
             broadcastSavedZipcode()
         }

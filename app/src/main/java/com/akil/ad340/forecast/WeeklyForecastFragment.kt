@@ -3,10 +3,12 @@ package com.akil.ad340.forecast
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -67,10 +69,13 @@ class WeeklyForecastFragment : Fragment() {
         // Setting the adapter
         forecastList.adapter = dailyForeCastAdapter
 
+
         val weeklyForecastObserver = Observer<WeeklyForecast>{ weeklyForecast ->
             // Update our List adapter
             dailyForeCastAdapter.submitList(weeklyForecast.daily)
         }
+
+
         /*we observe the weeklyForecast variable by the weeklyForecastObserver
         A lifecycle owner, the main activity is passed here. Observer is also passed here
         Any time live data changes in the repository due to some reasons, the observer is updated
@@ -102,6 +107,7 @@ class WeeklyForecastFragment : Fragment() {
         val action = WeeklyForecastFragmentDirections.actionWeeklyForecastFragmentToForecastDetailsFragment(temp, description)
         findNavController().navigate(action)
     }
+
 
     /*
     This is like static methods like java

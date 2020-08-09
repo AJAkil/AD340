@@ -17,6 +17,8 @@ import coil.api.load
 import com.akil.ad340.*
 import com.akil.ad340.api.CurrentWeather
 import com.akil.ad340.api.DailyForecast
+import com.akil.ad340.databinding.FragmentCurrentForecastBinding
+import com.akil.ad340.databinding.FragmentForecastDetailsBinding
 import com.akil.ad340.details.ForecastDetailsFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -26,6 +28,10 @@ class CurrentForecastFragment : Fragment() {
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
     private val forecastRepository = ForecastRepository()
     private lateinit var locationRepository: LocationRepository
+
+    private var _binding: FragmentCurrentForecastBinding? = null
+    // This property only valid between onCreateView and onDestroyView
+    private val binding: FragmentCurrentForecastBinding get()= _binding!!
 
 
     override fun onCreateView(
@@ -41,26 +47,27 @@ class CurrentForecastFragment : Fragment() {
 
 
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_current_forecast, container, false)
-        val locationName : TextView = view.findViewById(R.id.locationName)
-        val tempText: TextView = view.findViewById(R.id.tempText)
-        val forecastIcon: ImageView = view.findViewById(R.id.currentForecastIcon)
-
-        // Getting reference to the floating action button
-        val locationEntryButton = view.findViewById<FloatingActionButton>(R.id.locationEntryFragmentButton)
+        _binding = FragmentCurrentForecastBinding.inflate(inflater,container,false)
+//        val locationName : TextView = view.findViewById(R.id.locationName)
+//        val tempText: TextView = view.findViewById(R.id.tempText)
+//        val forecastIcon: ImageView = view.findViewById(R.id.currentForecastIcon)
+//
+//
+//        // Getting reference to the floating action button
+//        val locationEntryButton = view.findViewById<FloatingActionButton>(R.id.locationEntryFragmentButton)
 
         // Adding a click listener to the button
-        locationEntryButton.setOnClickListener {
+        binding.locationEntryFragmentButton.setOnClickListener {
             showLocationEntry()
         }
 
 
         val currentWeatherObserver =  Observer<CurrentWeather>{ weather->
-            locationName.text = weather.name
-            tempText.text = formatTempForDisplay(weather.forecast.temp, tempDisplaySettingManager.getTempDisplaySetting())
+            binding.locationName.text = weather.name
+            binding.tempText.text = formatTempForDisplay(weather.forecast.temp, tempDisplaySettingManager.getTempDisplaySetting())
 
             val iconID = weather.weather[0].icon
-            forecastIcon.load("http://openweathermap.org/img/wn/${iconID}@2x.png")
+            binding.currentForecastIcon.load("http://openweathermap.org/img/wn/${iconID}@2x.png")
         }
         /*we observe the weeklyForecast variable by the weeklyForecastObserver
         A lifecycle owner, the main activity is passed here. Observer is also passed here
@@ -80,7 +87,12 @@ class CurrentForecastFragment : Fragment() {
 
         locationRepository.savedLocation.observe(viewLifecycleOwner, savedLocationObserver)
 
-        return view
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun showLocationEntry(){
